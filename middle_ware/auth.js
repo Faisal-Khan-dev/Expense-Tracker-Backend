@@ -4,8 +4,11 @@ import jwt from 'jsonwebtoken'
 export const auth = (req , res , next) => {
     try {
         
-        const token = req.headers.authorization.split(" ")[1]
-       console.log("token" , token);
+        const authHeader = req.headers.authorization || req.headers.Authorization;
+        if (!authHeader) {
+            return res.json({ message: "Token missing!" });
+        }
+        const token = authHeader.split(" ")[1];
 
         if (token) {
            
